@@ -15,7 +15,7 @@ import (
 	_ "github.com/lib/pq"
 
 	"github.com/projectdiscovery/gologger"
-	"github.com/projectdiscovery/subfinder/v2/pkg/subscraping"
+	"github.com/ducksify/subfinder/v2/pkg/subscraping"
 	contextutil "github.com/projectdiscovery/utils/context"
 )
 

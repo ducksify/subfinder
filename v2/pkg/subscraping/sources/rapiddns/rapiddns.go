@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/projectdiscovery/subfinder/v2/pkg/subscraping"
+	"github.com/ducksify/subfinder/v2/pkg/subscraping"
 )
 
 var pagePattern = regexp.MustCompile(`class="page-link" href="/subdomain/[^"]+\?page=(\d+)">`)
