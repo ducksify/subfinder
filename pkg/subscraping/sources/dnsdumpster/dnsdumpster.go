@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/projectdiscovery/subfinder/v2/pkg/subscraping"
+	"github.com/ducksify/subfinder/v2/pkg/subscraping"
 )
 
 type response struct {
