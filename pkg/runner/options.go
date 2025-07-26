@@ -73,10 +73,8 @@ type Options struct {
 type OnResultCallback func(result *resolve.HostEntry)
 
 // ParseOptions parses the command line flags provided by a user
-func ParseOptions() *Options {
+func ParseOptions(options *Options) *Options {
 	logutil.DisableDefaultLogger()
-
-	options := &Options{}
 
 	var err error
 	flagSet := goflags.NewFlagSet()
