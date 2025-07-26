@@ -76,74 +76,6 @@ type OnResultCallback func(result *resolve.HostEntry)
 func ParseOptions(options *Options) *Options {
 	logutil.DisableDefaultLogger()
 
-	var err error
-	flagSet := goflags.NewFlagSet()
-	flagSet.SetDescription(`Subfinder is a subdomain discovery tool that discovers subdomains for websites by using passive online sources.`)
-
-	flagSet.CreateGroup("input", "Input",
-		flagSet.StringSliceVarP(&options.Domain, "domain", "d", nil, "domains to find subdomains for", goflags.NormalizedStringSliceOptions),
-		flagSet.StringVarP(&options.DomainsFile, "list", "dL", "", "file containing list of domains for subdomain discovery"),
-	)
-
-	flagSet.CreateGroup("source", "Source",
-		flagSet.StringSliceVarP(&options.Sources, "sources", "s", nil, "specific sources to use for discovery (-s crtsh,github). Use -ls to display all available sources.", goflags.NormalizedStringSliceOptions),
-		flagSet.BoolVar(&options.OnlyRecursive, "recursive", false, "use only sources that can handle subdomains recursively rather than both recursive and non-recursive sources"),
-		flagSet.BoolVar(&options.All, "all", false, "use all sources for enumeration (slow)"),
-		flagSet.StringSliceVarP(&options.ExcludeSources, "exclude-sources", "es", nil, "sources to exclude from enumeration (-es alienvault,zoomeyeapi)", goflags.NormalizedStringSliceOptions),
-	)
-
-	flagSet.CreateGroup("filter", "Filter",
-		flagSet.StringSliceVarP(&options.Match, "match", "m", nil, "subdomain or list of subdomain to match (file or comma separated)", goflags.FileNormalizedStringSliceOptions),
-		flagSet.StringSliceVarP(&options.Filter, "filter", "f", nil, " subdomain or list of subdomain to filter (file or comma separated)", goflags.FileNormalizedStringSliceOptions),
-	)
-
-	flagSet.CreateGroup("rate-limit", "Rate-limit",
-		flagSet.IntVarP(&options.RateLimit, "rate-limit", "rl", 0, "maximum number of http requests to send per second (global)"),
-		flagSet.RateLimitMapVarP(&options.RateLimits, "rate-limits", "rls", defaultRateLimits, "maximum number of http requests to send per second for providers in key=value format (-rls hackertarget=10/m)", goflags.NormalizedStringSliceOptions),
-		flagSet.IntVar(&options.Threads, "t", 10, "number of concurrent goroutines for resolving (-active only)"),
-	)
-
-	flagSet.CreateGroup("update", "Update",
-		flagSet.CallbackVarP(GetUpdateCallback(), "update", "up", "update subfinder to latest version"),
-		flagSet.BoolVarP(&options.DisableUpdateCheck, "disable-update-check", "duc", false, "disable automatic subfinder update check"),
-	)
-
-	flagSet.CreateGroup("output", "Output",
-		flagSet.StringVarP(&options.OutputFile, "output", "o", "", "file to write output to"),
-		flagSet.BoolVarP(&options.JSON, "json", "oJ", false, "write output in JSONL(ines) format"),
-		flagSet.StringVarP(&options.OutputDirectory, "output-dir", "oD", "", "directory to write output (-dL only)"),
-		flagSet.BoolVarP(&options.CaptureSources, "collect-sources", "cs", false, "include all sources in the output (-json only)"),
-		flagSet.BoolVarP(&options.HostIP, "ip", "oI", false, "include host IP in output (-active only)"),
-	)
-
-	flagSet.CreateGroup("configuration", "Configuration",
-		flagSet.StringVar(&options.Config, "config", defaultConfigLocation, "flag config file"),
-		flagSet.StringVarP(&options.ProviderConfig, "provider-config", "pc", defaultProviderConfigLocation, "provider config file"),
-		flagSet.StringSliceVar(&options.Resolvers, "r", nil, "comma separated list of resolvers to use", goflags.NormalizedStringSliceOptions),
-		flagSet.StringVarP(&options.ResolverList, "rlist", "rL", "", "file containing list of resolvers to use"),
-		flagSet.BoolVarP(&options.RemoveWildcard, "active", "nW", false, "display active subdomains only"),
-		flagSet.StringVar(&options.Proxy, "proxy", "", "http proxy to use with subfinder"),
-		flagSet.BoolVarP(&options.ExcludeIps, "exclude-ip", "ei", false, "exclude IPs from the list of domains"),
-	)
-
-	flagSet.CreateGroup("debug", "Debug",
-		flagSet.BoolVar(&options.Silent, "silent", false, "show only subdomains in output"),
-		flagSet.BoolVar(&options.Version, "version", false, "show version of subfinder"),
-		flagSet.BoolVar(&options.Verbose, "v", false, "show verbose output"),
-		flagSet.BoolVarP(&options.NoColor, "no-color", "nc", false, "disable color in output"),
-		flagSet.BoolVarP(&options.ListSources, "list-sources", "ls", false, "list all available sources"),
-		flagSet.BoolVar(&options.Statistics, "stats", false, "report source statistics"),
-	)
-
-	flagSet.CreateGroup("optimization", "Optimization",
-		flagSet.IntVar(&options.Timeout, "timeout", 30, "seconds to wait before timing out"),
-		flagSet.IntVar(&options.MaxEnumerationTime, "max-time", 10, "minutes to wait for enumeration results"),
-	)
-
-	if err := flagSet.Parse(); err != nil {
-		fmt.Println(err.Error())
-		os.Exit(1)
-	}
 
 	// set chaos mode
 	chaos.IsSDK = false
@@ -154,13 +86,7 @@ func ParseOptions(options *Options) *Options {
 		}
 	}
 
-	if options.Config != defaultConfigLocation {
-		// An empty source file is not a fatal error
-		if err := flagSet.MergeConfigFile(options.Config); err != nil && !errors.Is(err, io.EOF) {
-			gologger.Fatal().Msgf("Could not read config: %s\n", err)
-		}
-	}
-
+	var err error
 	// Default output is stdout
 	options.Output = os.Stdout
 
