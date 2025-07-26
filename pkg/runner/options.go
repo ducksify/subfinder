@@ -176,7 +176,6 @@ func ParseOptions(options *Options) *Options {
 	options.preProcessDomains()
 
 	options.ConfigureOutput()
-	showBanner()
 
 	if !options.DisableUpdateCheck {
 		latestVersion, err := updateutils.GetToolVersionCallback("subfinder", version)()
