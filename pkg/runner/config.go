@@ -7,8 +7,8 @@ import (
 	"gopkg.in/yaml.v3"
 
 	"github.com/projectdiscovery/gologger"
-	"github.com/projectdiscovery/subfinder/v2/pkg/passive"
-	"github.com/projectdiscovery/subfinder/v2/pkg/subscraping"
+	"github.com/ducksify/subfinder/v2/pkg/passive"
+	"github.com/ducksify/subfinder/v2/pkg/subscraping"
 	fileutil "github.com/projectdiscovery/utils/file"
 )
 

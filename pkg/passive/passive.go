@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/projectdiscovery/ratelimit"
-	"github.com/projectdiscovery/subfinder/v2/pkg/subscraping"
+	"github.com/ducksify/subfinder/v2/pkg/subscraping"
 )
 
 type EnumerationOptions struct {

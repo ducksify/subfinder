@@ -9,7 +9,7 @@ import (
 	"github.com/projectdiscovery/gologger"
 	"github.com/projectdiscovery/gologger/formatter"
 	"github.com/projectdiscovery/gologger/levels"
-	"github.com/projectdiscovery/subfinder/v2/pkg/passive"
+	"github.com/ducksify/subfinder/v2/pkg/passive"
 	mapsutil "github.com/projectdiscovery/utils/maps"
 	sliceutil "github.com/projectdiscovery/utils/slice"
 )
