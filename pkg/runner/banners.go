@@ -1,8 +1,8 @@
 package runner
 
 import (
-	"github.com/projectdiscovery/gologger"
 	updateutils "github.com/projectdiscovery/utils/update"
+	"github.com/projectdiscovery/gologger"
 )
 
 const banner = `
@@ -17,7 +17,7 @@ const banner = `
 const ToolName = `subfinder`
 
 // Version is the current version of subfinder
-const version = `v2.12.0`
+const version = `v2.13.0`
 
 // showBanner is used to show the banner to the user
 func showBanner() {
